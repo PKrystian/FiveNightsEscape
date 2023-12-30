@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val minSdkVersion: Int = 26
-val targetSdkVersion: Int = 34
 val appVersionCode: Int = 1
 val appVersionName: String = "1.0"
 
@@ -14,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.fivenightsescape"
-        minSdk = minSdkVersion
-        targetSdk = targetSdkVersion
+        minSdk = 26
+        targetSdk = 34
         versionCode = appVersionCode
         versionName = appVersionName
 
