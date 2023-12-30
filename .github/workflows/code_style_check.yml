@@ -42,11 +42,3 @@ jobs:
       - name: Check SARIF file existence
         run: |
           ls ${{ github.workspace }}/detekt_output/detekt.sarif.json || echo "SARIF file not found"
-
-      - name: Upload Detekt Style Check Results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: ${{ github.workspace }}/detekt_output/detekt.sarif.json
-          checkout_path: ${{ github.workspace }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          wait-for-processing: true
