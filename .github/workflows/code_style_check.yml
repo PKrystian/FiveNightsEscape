@@ -23,7 +23,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
-          java-version: '11' # or specify your required Java version
+          java-version: '11'
+          distribution: 'adopt'
 
       - name: Install Detekt
         run: |
