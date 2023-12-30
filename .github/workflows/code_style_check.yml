@@ -18,7 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -47,3 +48,5 @@ jobs:
         with:
           sarif_file: ${{ github.workspace }}/detekt_output/detekt.sarif.json
           checkout_path: ${{ github.workspace }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          wait-for-processing: true
