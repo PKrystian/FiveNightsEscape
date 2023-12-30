@@ -10,10 +10,13 @@ android {
     namespace = "com.example.fivenightsescape"
     compileSdk = 34
 
+    val minSdkVersion = 26
+    val targetSdkVersion = 34
+
     defaultConfig {
         applicationId = "com.example.fivenightsescape"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = minSdkVersion
+        targetSdk = targetSdkVersion
         versionCode = appVersionCode
         versionName = appVersionName
 
