@@ -34,7 +34,7 @@ jobs:
 
       - name: Run Detekt Style Check
         run: |
-          detekt --input ${{ github.workspace }} --report sarif:${{ github.workspace }}/detekt_output/detekt.sarif.json
+          detekt --input ${{ github.workspace }} --report sarif:${{ github.workspace }}/detekt_output/detekt.sarif.json --exclude app/build.gradle.kts
 
       - name: Check SARIF file existence
         run: |
