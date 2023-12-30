@@ -1,0 +1,53 @@
+name: Check Kotlin Code Styling
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '28 1 * * 4'
+  workflow_dispatch:
+
+env:
+  DETEKT_RELEASE_TAG: v1.15.0
+
+jobs:
+  style_check:
+    name: Style Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get Detekt download URL
+        id: detekt_info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch the download URL for the specified Detekt release
+          # Query the GitHub API to retrieve the download URL
+          # (Ensure the API query here fetches the Detekt release information)
+
+      - name: Setup Detekt
+        run: |
+          # Download and configure Detekt with specific rule sets for code styling
+          # Ensure to use the download URL fetched earlier to get Detekt
+          # For code styling checks, configure Detekt with style-related rule sets
+
+      - name: Run Detekt Style Check
+        continue-on-error: true
+        run: |
+          # Run Detekt with configured rules for code styling checks
+          # Output results in the desired format (SARIF, plain text, etc.)
+
+      - name: Make artifact location URIs relative
+        continue-on-error: true
+        run: |
+          # Modify the SARIF output to make artifact location URIs relative
+
+      - name: Upload Detekt Style Check Results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ github.workspace }}/detekt.sarif.json
+          checkout_path: ${{ github.workspace }}
