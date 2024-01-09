@@ -18,13 +18,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+private const val REQUEST_ACCESS_FINE_LOCATION = 1
+private const val MARKER_TITLE = "Your Location"
+private const val TOAST_TEXT_ERROR = "Unable to get current location"
+private const val TOAST_TEXT_DENIED = "Location permission denied"
+
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    private val markerTitle = "Your Location"
-    private val toastTextError = "Unable to get current location"
-    private val toastTextDenied = "Location permission denied"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
+                REQUEST_ACCESS_FINE_LOCATION
             )
             return
         }
@@ -62,12 +63,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                mMap.addMarker(MarkerOptions().position(currentLatLng).title(markerTitle))
+                mMap.addMarker(MarkerOptions().position(currentLatLng).title(MARKER_TITLE))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
             } else {
                 Toast.makeText(
                     this,
-                    toastTextError,
+                    TOAST_TEXT_ERROR,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -80,15 +81,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+        if (requestCode == REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onMapReady(mMap)
             } else {
-                Toast.makeText(
-                    this,
-                    toastTextDenied,
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, TOAST_TEXT_DENIED, Toast.LENGTH_SHORT).show()
             }
         }
     }
