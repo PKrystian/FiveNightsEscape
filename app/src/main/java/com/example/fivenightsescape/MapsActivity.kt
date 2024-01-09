@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 private const val REQUEST_ACCESS_FINE_LOCATION = 1
+private const val DEFAULT_ZOOM_LEVEL = 15f
 private const val MARKER_TITLE = "Your Location"
 private const val TOAST_TEXT_ERROR = "Unable to get current location"
 private const val TOAST_TEXT_DENIED = "Location permission denied"
@@ -61,11 +62,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            val zoomLevel = 15f
             if (location != null) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.addMarker(MarkerOptions().position(currentLatLng).title(MARKER_TITLE))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomLevel))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM_LEVEL))
             } else {
                 Toast.makeText(this, TOAST_TEXT_ERROR, Toast.LENGTH_SHORT).show()
             }
