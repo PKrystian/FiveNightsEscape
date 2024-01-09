@@ -30,7 +30,7 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 - [ ] Warning the User of nearby monsters
 
-- [ ] Taking into account the User's location
+- [x] Taking into account the User's location
 
 - [ ] Drawing the location of monsters near the User
 
@@ -38,11 +38,11 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 ## Technical requirements (minimum):
 
-- [ ] Support for maps (for example: OpenStreetMaps, Google)
+- [x] Support for maps (for example: OpenStreetMaps, Google)
 
 - [ ] Gesture support
 
-- [ ] Detection of the User's location
+- [x] Detection of the User's location
 
 - [ ] Use of intentions
 
@@ -66,7 +66,7 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 ## Evaluation is mainly subject to:
 
-- [ ] Cleanliness of the code ([We use Kotlin style guide](https://developer.android.com/kotlin/style-guide))
+- [x] Cleanliness of the code ([We use Kotlin style guide](https://developer.android.com/kotlin/style-guide))
 
 - [ ] Meeting the technical requirements
 
