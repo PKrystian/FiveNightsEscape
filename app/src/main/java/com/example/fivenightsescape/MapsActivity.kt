@@ -61,16 +61,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            val zoomLevel = 15f
             if (location != null) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.addMarker(MarkerOptions().position(currentLatLng).title(MARKER_TITLE))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomLevel))
             } else {
-                Toast.makeText(
-                    this,
-                    TOAST_TEXT_ERROR,
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, TOAST_TEXT_ERROR, Toast.LENGTH_SHORT).show()
             }
         }
     }
