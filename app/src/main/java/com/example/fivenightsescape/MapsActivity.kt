@@ -33,6 +33,7 @@ private const val DEFAULT_LEVEL_CHANGER = 4
 private const val DEFAUL_LEVEL_SLOWERING = 2
 private const val DEFAULT_SPEED_PROGRESSION = 2
 private const val DEFAULT_LEVEL_PROGRESSION = 1
+private const val PROCENT = 100
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -81,12 +82,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             runOnUiThread {
                 if (subLevel<levelChanger){
                     subLevel += DEFAULT_LEVEL_PROGRESSION
-                    progressBar.progress = (subLevel.toDouble() / levelChanger * 100).toInt()
+                    progressBar.progress = (subLevel.toDouble() / levelChanger * PROCENT).toInt()
                 }
                 else{
                     if (currentLevel % DEFAUL_LEVEL_SLOWERING == 0){
                         levelChanger *= DEFAULT_SPEED_PROGRESSION
-                    // every DEFAUL LEVEL SLOWERING levels it takes DEFAULT SPEED PROGRESSION times longer to get another lv
+                    // every x levels it takes y times longer to get another lv
                     }
                     progressBar.progress = 0
                     subLevel = 0
