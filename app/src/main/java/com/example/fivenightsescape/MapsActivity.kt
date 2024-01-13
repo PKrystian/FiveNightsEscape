@@ -10,6 +10,7 @@ import android.widget.Toast
 import android.os.Handler
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,17 +28,22 @@ private const val DEFAULT_ZOOM_LEVEL = 15f
 private const val MARKER_TITLE = "Your Location"
 private const val TOAST_TEXT_ERROR = "Unable to get current location"
 private const val TOAST_TEXT_DENIED = "Location permission denied"
+private const val DEFAULT_DELAY : Long = 500
+private const val DEFAULT_LEVEL_CHANGER = 4
+private const val DEFAUL_LEVEL_SLOWERING = 2
+private const val DEFAULT_SPEED_PROGRESSION = 2
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
 
     //timer and lv things
-    private var levelChanger = 4 //levelChanger * delay = every how many milliseconds next lv, it changes every two levels
-    private val delay: Long = 500 // how often does the progressbar update
+    //levelChanger * delay = every how many milliseconds next lv, it changes every two levels
+    private var levelChanger = DEFAULT_LEVEL_CHANGER
+    private val delay = DEFAULT_DELAY
     private var currentLevel = 1 //lv the player is on
     private var subLevel = 0 // for the progressbar and to change level length
-    private val handlerTimer = Handler()
+    private val handlerTimer = Handler(Looper.getMainLooper())
     private lateinit var levelText: TextView
     private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +56,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         handlerTimer.postDelayed(newLevel, delay)
         //level indicator
         levelText = findViewById(R.id.levelIndicator)
+        levelText.text = getString(R.string.level, currentLevel)
         //progress bar
         progressBar = findViewById(R.id.progressBar)
 
@@ -72,17 +79,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         override fun run() {
             runOnUiThread {
                 if (subLevel<levelChanger){
-                    subLevel+=1
+                    subLevel += 1
                     progressBar.progress = (subLevel.toDouble() / levelChanger * 100).toInt()
                 }
                 else{
-                    if (currentLevel%2==0){
-                        levelChanger*=2 // every two levels it takes longer to get another lv
+                    if (currentLevel % DEFAUL_LEVEL_SLOWERING == 0){
+                        levelChanger *= DEFAULT_SPEED_PROGRESSION
+                    // every DEFAUL LEVEL SLOWERING levels it takes DEFAULT SPEED PROGRESSION times longer to get another lv
                     }
                     progressBar.progress = 0
                     subLevel = 0
-                    currentLevel +=1
-                    levelText.text = "Level: " + currentLevel.toString()
+                    currentLevel += 1
+                    levelText.text = getString(R.string.level, currentLevel)
                 }
             }
             handlerTimer.postDelayed(this, delay)

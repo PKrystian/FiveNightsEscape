@@ -9,5 +9,5 @@
     <string name="hard">Hard</string>
     <string name="medium">Medium</string>
     <string name="start">Start</string>
-    <string name="level">Level: 1</string>
+    <string name="level">Level: %1$d</string>
 </resources>
