@@ -32,6 +32,7 @@ private const val DEFAULT_DELAY : Long = 500
 private const val DEFAULT_LEVEL_CHANGER = 4
 private const val DEFAUL_LEVEL_SLOWERING = 2
 private const val DEFAULT_SPEED_PROGRESSION = 2
+private const val DEFAULT_LEVEL_PROGRESSION = 1
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -79,7 +80,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         override fun run() {
             runOnUiThread {
                 if (subLevel<levelChanger){
-                    subLevel += 1
+                    subLevel += DEFAULT_LEVEL_PROGRESSION
                     progressBar.progress = (subLevel.toDouble() / levelChanger * 100).toInt()
                 }
                 else{
@@ -89,7 +90,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     progressBar.progress = 0
                     subLevel = 0
-                    currentLevel += 1
+                    currentLevel += DEFAULT_LEVEL_PROGRESSION
                     levelText.text = getString(R.string.level, currentLevel)
                 }
             }
