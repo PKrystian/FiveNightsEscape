@@ -66,7 +66,12 @@ abstract class Monster(
     }
 }
 
-class MonsterStanding(damage: Int = 1, player: Player, position: LatLng, mMap: GoogleMap): Monster(damage, player, position, mMap) {
+class MonsterStanding(
+    damage: Int = 1,
+    player: Player,
+    position: LatLng,
+    mMap: GoogleMap
+): Monster(damage, player, position, mMap) {
     init {
         this.monsterType = TYPE_STANDING
         this.range = 10.0
@@ -76,7 +81,12 @@ class MonsterStanding(damage: Int = 1, player: Player, position: LatLng, mMap: G
     }
 }
 
-class MonsterMoving(damage: Int = 1, player: Player, position: LatLng, mMap: GoogleMap): Monster(damage, player, position, mMap) {
+class MonsterMoving(
+    damage: Int = 1,
+    player: Player,
+    position: LatLng,
+    mMap: GoogleMap
+): Monster(damage, player, position, mMap) {
     init {
         this.monsterType = TYPE_MOVING
         this.speed = 0.0001
@@ -87,7 +97,12 @@ class MonsterMoving(damage: Int = 1, player: Player, position: LatLng, mMap: Goo
     }
 }
 
-class MonsterWandering(damage: Int = 1, player: Player, position: LatLng, mMap: GoogleMap): Monster(damage, player, position, mMap) {
+class MonsterWandering(
+    damage: Int = 1,
+    player: Player,
+    position: LatLng,
+    mMap: GoogleMap
+): Monster(damage, player, position, mMap) {
     init {
         this.monsterType = TYPE_WANDERING
         this.speed = 0.0001

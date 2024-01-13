@@ -4,10 +4,18 @@ import android.location.Location
 import android.os.CountDownTimer
 import com.google.android.gms.maps.model.LatLng
 
+const val DEFAULT_COUNTDOWN_INTERVAL_MOVING: Long = 100
+const val DEFAULT_COUNTFROM: Long = 1000
+
+const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
+
 class MonsterController {
     lateinit var monster: Monster
 
-    private val monsterMove = object: CountDownTimer(1000, 100) {
+    private val monsterMove = object: CountDownTimer(
+        DEFAULT_COUNTFROM,
+        DEFAULT_COUNTDOWN_INTERVAL_MOVING
+    ) {
         override fun onTick(millisUntilFinished: Long) {
             // do something
         }
@@ -16,7 +24,10 @@ class MonsterController {
         }
     }
 
-    private val monsterWander = object: CountDownTimer(1000, 1000) {
+    private val monsterWander = object: CountDownTimer(
+        DEFAULT_COUNTFROM,
+        DEFAULT_COUNTDOWN_INTERVAL_WANDERING
+    ) {
         override fun onTick(millisUntilFinished: Long) {
             // do something
         }
@@ -25,7 +36,7 @@ class MonsterController {
         }
     }
 
-    fun monsterActivate(monster: Monster)
+    fun  monsterActivate(monster: Monster)
     {
         this.monster = monster
 
@@ -97,7 +108,10 @@ class MonsterController {
             monsterLongitudeSpeed *= (-1)
         }
 
-        monster.changePosition(LatLng(monster.position.latitude - monsterLatitudeSpeed, monster.position.longitude - monsterLongitudeSpeed))
+        monster.changePosition(LatLng(
+            monster.position.latitude - monsterLatitudeSpeed,
+            monster.position.longitude - monsterLongitudeSpeed)
+        )
     }
 
     fun actionChase(monster: Monster)
