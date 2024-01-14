@@ -4,8 +4,10 @@ import android.location.Location
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
+const val PLAYER_HEALTH = 3
+
 class Player(var position: LatLng): ViewModel() {
-    private var health: Int = 3
+    private var health: Int = PLAYER_HEALTH
     var location: Location = Location("")
 
     init {
