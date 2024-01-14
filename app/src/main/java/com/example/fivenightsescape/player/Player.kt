@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
 class Player(var position: LatLng): ViewModel() {
-    var health: Int = 3
+    private var health: Int = 3
     var location: Location = Location("")
 
     init {
@@ -30,7 +30,7 @@ class Player(var position: LatLng): ViewModel() {
         }
     }
 
-    fun death()
+    private fun death()
     {
         // Implement GAME OVER Screen etc.
     }

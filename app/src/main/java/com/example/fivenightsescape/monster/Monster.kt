@@ -35,7 +35,7 @@ abstract class Monster(
     val damage: Int = MONSTER_DAMAGE,
     var player: Player,
     var position: LatLng,
-    var mMap: GoogleMap)
+    private var mMap: GoogleMap)
 {
     var speed: Double = MONSTER_ZERO_SPEED
     var range: Double = MONSTER_ZERO_RANGE
