@@ -14,6 +14,8 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.fivenightsescape.monster.MonsterController
+import com.example.fivenightsescape.player.Player
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -38,6 +40,11 @@ private const val PROCENT = 100
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
+    private lateinit var player: Player
+
+    private var monsterController: MonsterController = MonsterController()
+
+    private var initialized: Boolean = false
 
     //timer and lv things
     //levelChanger * delay = every how many milliseconds next lv, it changes every two levels
@@ -98,6 +105,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             handlerTimer.postDelayed(this, delay)
         }
     }
+
+    private fun gameInit(currentLatLng: LatLng)
+    {
+        this.player = Player(position = currentLatLng)
+
+        // Make initial mobs spawn here
+        // After creating class for spawning mobs use as following:
+//        var monster = MonsterClass(
+//            player = player,
+//            position = LatLng(monsterPosition), // Values in 0.0001 or lower because of scale
+//            mMap = mMap
+//        )
+
+        this.initialized = true
+    }
+
     override fun onMapReady(
         googleMap: GoogleMap
     ) {
@@ -114,13 +137,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             )
             return
         }
+
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
+
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.addMarker(MarkerOptions().position(currentLatLng).title(MARKER_TITLE))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM_LEVEL))
+
+                if (!this.initialized) this.gameInit(currentLatLng)
+
+                this.player.changePosition(currentLatLng)
+
+                // Make spawner with monster list invoke this action
+                // this.monsterController.monsterActivate(monster)
+
+                // Then this next action has to be ran every time the player changes position
+                // this.monsterController.monsterAlert(monster)
+                // Best to make Spawner.update method that calls this here <<
             } else {
                 Toast.makeText(this, TOAST_TEXT_ERROR, Toast.LENGTH_SHORT).show()
             }
