@@ -38,7 +38,7 @@ class MonsterController {
         }
     }
 
-    fun  monsterActivate(monster: Monster)
+    fun monsterActivate(monster: Monster)
     {
         this.monster = monster
 
@@ -58,7 +58,7 @@ class MonsterController {
         }
     }
 
-    fun monsterAction(monster: Monster)
+    private fun monsterAction(monster: Monster)
     {
         this.monster = monster
 
@@ -76,12 +76,12 @@ class MonsterController {
         }
     }
 
-    fun actionAttack(monster: Monster)
+    private fun actionAttack(monster: Monster)
     {
         monster.player.takeDamage(monster.damage)
     }
 
-    fun actionWander(monster: Monster)
+    private fun actionWander(monster: Monster)
     {
         this.monster = monster
 
@@ -97,7 +97,7 @@ class MonsterController {
         monsterWander.start()
     }
 
-    fun monsterMove(monster: Monster, location: Location)
+    private fun monsterMove(monster: Monster, location: Location)
     {
         var monsterLatitudeSpeed = monster.speed
         var monsterLongitudeSpeed = monster.speed
@@ -116,7 +116,7 @@ class MonsterController {
         )
     }
 
-    fun actionChase(monster: Monster)
+    private fun actionChase(monster: Monster)
     {
         this.monster = monster
 

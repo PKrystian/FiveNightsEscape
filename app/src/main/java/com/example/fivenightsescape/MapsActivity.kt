@@ -106,7 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    fun gameInit(currentLatLng: LatLng)
+    private fun gameInit(currentLatLng: LatLng)
     {
         this.player = Player(position = currentLatLng)
 
