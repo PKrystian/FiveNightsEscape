@@ -54,7 +54,7 @@ abstract class Monster(
         this.location.longitude = this.position.longitude
     }
 
-    fun initCircle()
+    protected fun initCircle()
     {
         this.circle = mMap.addCircle(CircleOptions()
             .center(this.position)
@@ -131,7 +131,7 @@ class MonsterWandering(
         this.initializeWandering()
     }
 
-    fun initializeWandering()
+    private fun initializeWandering()
     {
         val fromLatitude = this.position.latitude - Random.nextDouble(until = MONSTER_WANDER_OFFSET)
         val fromLongitude = this.position.longitude - Random.nextDouble(until = MONSTER_WANDER_OFFSET)
