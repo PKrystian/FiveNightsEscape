@@ -17,17 +17,37 @@
             tools:layout="@layout/activity_maps" />
     </FrameLayout>
 
-    <!-- Timer -->
+    <!-- Timer + Lvl indicator -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="500dp"
+        android:layout_marginTop="24dp"
+        android:padding="16dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        style="?android:attr/progressBarStyleHorizontal"
+        />
     <TextView
-        android:id="@+id/timer"
+        android:id="@+id/levelIndicator"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/level"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <Chronometer
+        android:id="@+id/timerONE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/_00_00s"
-        android:textSize="20sp" />
+        android:textSize="20sp"/>
 
     <!-- Health Indicator -->
     <TextView
@@ -36,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:padding="16dp"
