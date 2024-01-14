@@ -9,6 +9,8 @@ const val DEFAULT_COUNTFROM: Long = 1000
 
 const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
 
+const val DEFAULT_WANDERING_DISTANCE = 10
+
 class MonsterController {
     lateinit var monster: Monster
 
@@ -83,7 +85,7 @@ class MonsterController {
     {
         this.monster = monster
 
-        if (monster.location.distanceTo(monster.wanderTo) <= 10) {
+        if (monster.location.distanceTo(monster.wanderTo) <= DEFAULT_WANDERING_DISTANCE) {
             val tempFrom = monster.wanderFrom
 
             monster.wanderFrom = monster.wanderTo
