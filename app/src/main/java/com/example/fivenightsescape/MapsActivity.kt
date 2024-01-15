@@ -41,6 +41,18 @@ private const val DEFAUL_LEVEL_SLOWERING = 2
 private const val DEFAULT_SPEED_PROGRESSION = 2
 private const val DEFAULT_LEVEL_PROGRESSION = 1
 private const val PROCENT = 100
+private const val MONSTER_SPAWN_DELAY: Long = 10000
+private const val EASY_SPAWNER_BASIC = 7
+private const val EASY_SPAWNER_MODIFIER = 2
+private const val MEDIUM_SPAWNER_BASIC = 5
+private const val MEDIUM_SPAWNER_MODIFIER = 3
+private const val HARD_SPAWNER_BASIC = 3
+private const val HARD_SPAWNER_MODIFIER = 4
+private const val DICE_MIN = 1
+private const val DICE_MAX = 11
+private const val LOCALIZATION_MIN = -9
+private const val LOCALIZATION_MAX = 10
+private const val DIVIDER = 10000
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -128,9 +140,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     monsterSpawner(location)
                 }
 
-                handler.postDelayed(this, 10000)
+                handler.postDelayed(this, MONSTER_SPAWN_DELAY)
             }
-        }, 10000)
+        }, MONSTER_SPAWN_DELAY)
 
         this.initialized = true
     }
@@ -138,14 +150,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun monsterSpawner(playerLocation: LatLng)
     {
         this.player = Player(position = playerLocation)
-        var dice: Int = Random.nextInt(1, 11)
+        var dice: Int = Random.nextInt(DICE_MIN, DICE_MAX)
         var randomLatitude = randomPosition()
         var randomLongitude = randomPosition()
         val selectedDifficulty = intent.getStringExtra("selectedDifficulty")
         if(selectedDifficulty == "Easy")
         {
             when {
-                dice < 7 -> {
+                dice < EASY_SPAWNER_BASIC -> {
                     this.monster = MonsterStanding(
                         player = player,
                         position = LatLng(
@@ -155,7 +167,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap = mMap
                     )
                 }
-                dice < 9 -> {
+                dice < EASY_SPAWNER_BASIC + EASY_SPAWNER_MODIFIER -> {
                     this.monster = MonsterWandering(
                         player = player,
                         position = LatLng(
@@ -165,7 +177,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap = mMap
                     )
                 }
-                dice < 11 -> {
+                dice < EASY_SPAWNER_BASIC + EASY_SPAWNER_MODIFIER + EASY_SPAWNER_MODIFIER -> {
                     this.monster = MonsterMoving(
                         player = player,
                         position = LatLng(
@@ -183,7 +195,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         else if(selectedDifficulty == "Medium")
         {
             when {
-                dice < 5 -> {
+                dice < MEDIUM_SPAWNER_BASIC -> {
                     this.monster = MonsterStanding(
                         player = player,
                         position = LatLng(
@@ -193,7 +205,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap = mMap
                     )
                 }
-                dice < 8 -> {
+                dice < MEDIUM_SPAWNER_BASIC + MEDIUM_SPAWNER_MODIFIER -> {
                     this.monster = MonsterWandering(
                         player = player,
                         position = LatLng(
@@ -203,7 +215,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap = mMap
                     )
                 }
-                dice < 11 -> {
+                dice < MEDIUM_SPAWNER_BASIC + MEDIUM_SPAWNER_MODIFIER + MEDIUM_SPAWNER_MODIFIER -> {
                     this.monster = MonsterMoving(
                         player = player,
                         position = LatLng(
@@ -221,7 +233,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         else if(selectedDifficulty == "Hard")
         {
             when {
-                dice < 4 -> {
+                dice < HARD_SPAWNER_BASIC -> {
                     this.monster = MonsterStanding(
                         player = player,
                         position = LatLng(
@@ -231,7 +243,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap = mMap
                     )
                 }
-                dice < 7 -> {
+                dice < HARD_SPAWNER_BASIC + HARD_SPAWNER_MODIFIER -> {
                     this.monster = MonsterWandering(
                         player = player,
                         position = LatLng(
@@ -241,7 +253,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap = mMap
                     )
                 }
-                dice < 11 -> {
+                dice < HARD_SPAWNER_BASIC + HARD_SPAWNER_MODIFIER + HARD_SPAWNER_MODIFIER -> {
                     this.monster = MonsterMoving(
                         player = player,
                         position = LatLng(
@@ -262,9 +274,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     {
         var randomNumber = 0
         while (randomNumber == 0) {
-            randomNumber = Random.nextInt(-9, 10)
+            randomNumber = Random.nextInt(LOCALIZATION_MIN, LOCALIZATION_MAX)
         }
-        return randomNumber.toDouble()/10000
+        return randomNumber.toDouble()/DIVIDER
     }
 
     override fun onMapReady(
