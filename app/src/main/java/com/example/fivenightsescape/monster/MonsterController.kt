@@ -11,57 +11,59 @@ const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
 
 const val DEFAULT_WANDERING_DISTANCE = 10
 
+
 class MonsterController {
-    lateinit var monster: Monster
+    private val monsters: MutableList<Monster> = mutableListOf()
+    private val monsterMoveTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
+    private val monsterWanderTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
 
-    private val monsterMove = object: CountDownTimer(
-        DEFAULT_COUNTFROM,
-        DEFAULT_COUNTDOWN_INTERVAL_MOVING
-    ) {
-        override fun onTick(millisUntilFinished: Long) {
-            // do something
-        }
-        override fun onFinish() {
-            actionChase(monster)
-        }
-    }
+    private fun createMonsterMoveTimer(monster: Monster): CountDownTimer {
+        return object : CountDownTimer(DEFAULT_COUNTFROM, DEFAULT_COUNTDOWN_INTERVAL_MOVING) {
+            override fun onTick(millisUntilFinished: Long) {
+                // do something
+            }
 
-    private val monsterWander = object: CountDownTimer(
-        DEFAULT_COUNTFROM,
-        DEFAULT_COUNTDOWN_INTERVAL_WANDERING
-    ) {
-        override fun onTick(millisUntilFinished: Long) {
-            // do something
-        }
-        override fun onFinish() {
-            actionWander(monster)
-        }
-    }
-
-    fun monsterActivate(monster: Monster)
-    {
-        this.monster = monster
-
-        when (monster.monsterType) {
-            TYPE_WANDERING -> {
-                monsterWander.start()
+            override fun onFinish() {
+                actionChase(monster)
             }
         }
     }
 
-    fun monsterAlert(monster: Monster)
-    {
-        this.monster = monster
+    private fun createMonsterWanderTimer(monster: Monster): CountDownTimer {
+        return object : CountDownTimer(DEFAULT_COUNTFROM, DEFAULT_COUNTDOWN_INTERVAL_WANDERING) {
+            override fun onTick(millisUntilFinished: Long) {
+                // do something
+            }
 
+            override fun onFinish() {
+                actionWander(monster)
+            }
+        }
+    }
+
+    fun addMonster(monster: Monster) {
+        monsters.add(monster)
+
+        when (monster.monsterType) {
+            TYPE_WANDERING -> {
+                val wanderTimer = createMonsterWanderTimer(monster)
+                monsterWanderTimers[monster] = wanderTimer
+                wanderTimer.start()
+            }
+        }
+    }
+
+    fun monsterActivate(monster: Monster) {
+        addMonster(monster)
+    }
+
+    fun monsterAlert(monster: Monster) {
         if (monster.location.distanceTo(monster.player.location) <= monster.range) {
             monsterAction(monster)
         }
     }
 
-    private fun monsterAction(monster: Monster)
-    {
-        this.monster = monster
-
+    private fun monsterAction(monster: Monster) {
         when (monster.monsterType) {
             TYPE_STANDING -> {
                 actionAttack(monster)
@@ -70,63 +72,60 @@ class MonsterController {
                 actionChase(monster)
             }
             TYPE_WANDERING -> {
-                monsterWander.cancel()
+                monsterWanderTimers[monster]?.cancel()
                 actionChase(monster)
             }
         }
     }
 
-    private fun actionAttack(monster: Monster)
-    {
+    private fun actionAttack(monster: Monster) {
         monster.player.takeDamage(monster.damage)
     }
 
-    private fun actionWander(monster: Monster)
-    {
-        this.monster = monster
-
+    private fun actionWander(monster: Monster) {
         if (monster.location.distanceTo(monster.wanderTo) <= DEFAULT_WANDERING_DISTANCE) {
             val tempFrom = monster.wanderFrom
-
             monster.wanderFrom = monster.wanderTo
             monster.wanderTo = tempFrom
         }
 
-        this.monsterMove(monster, monster.wanderTo)
+        monsterMove(monster, monster.wanderTo)
 
-        monsterWander.start()
+        val wanderTimer = createMonsterWanderTimer(monster)
+        monsterWanderTimers[monster] = wanderTimer
+        wanderTimer.start()
     }
 
-    private fun monsterMove(monster: Monster, location: Location)
-    {
+    private fun monsterMove(monster: Monster, location: Location) {
         var monsterLatitudeSpeed = monster.speed
         var monsterLongitudeSpeed = monster.speed
 
         if (location.latitude > monster.position.latitude) {
-            monsterLatitudeSpeed *= (-1)
+            monsterLatitudeSpeed *= -1
         }
 
         if (location.longitude > monster.position.longitude) {
-            monsterLongitudeSpeed *= (-1)
+            monsterLongitudeSpeed *= -1
         }
 
-        monster.changePosition(LatLng(
-            monster.position.latitude - monsterLatitudeSpeed,
-            monster.position.longitude - monsterLongitudeSpeed)
+        monster.changePosition(
+            LatLng(
+                monster.position.latitude - monsterLatitudeSpeed,
+                monster.position.longitude - monsterLongitudeSpeed
+            )
         )
     }
 
-    private fun actionChase(monster: Monster)
-    {
-        this.monster = monster
-
-        this.monsterMove(monster, monster.player.location)
+    private fun actionChase(monster: Monster) {
+        monsterMove(monster, monster.player.location)
 
         if (monster.location.distanceTo(monster.player.location) <= monster.range) {
-            monsterMove.cancel()
+            monsterMoveTimers[monster]?.cancel()
             return
         }
 
-        monsterMove.start()
+        val moveTimer = createMonsterMoveTimer(monster)
+        monsterMoveTimers[monster] = moveTimer
+        moveTimer.start()
     }
 }

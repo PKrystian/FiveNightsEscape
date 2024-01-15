@@ -14,7 +14,11 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.fivenightsescape.monster.Monster
 import com.example.fivenightsescape.monster.MonsterController
+import com.example.fivenightsescape.monster.MonsterMoving
+import com.example.fivenightsescape.monster.MonsterStanding
+import com.example.fivenightsescape.monster.MonsterWandering
 import com.example.fivenightsescape.player.Player
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -24,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlin.random.Random
 
 private const val REQUEST_ACCESS_FINE_LOCATION = 1
 private const val DEFAULT_ZOOM_LEVEL = 15f
@@ -41,6 +46,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
     private lateinit var player: Player
+    private lateinit var monster: Monster
 
     private var monsterController: MonsterController = MonsterController()
 
@@ -55,9 +61,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val handlerTimer = Handler(Looper.getMainLooper())
     private lateinit var levelText: TextView
     private lateinit var progressBar: ProgressBar
+    private var currentPlayerLocation: LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
 
         //timer
         val timerONE :Chronometer = findViewById(R.id.timerONE)
@@ -68,7 +76,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         levelText.text = getString(R.string.level, currentLevel)
         //progress bar
         progressBar = findViewById(R.id.progressBar)
-
 
         val stopButton: Button = findViewById(R.id.stopButton)
 
@@ -81,6 +88,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
     }
 
     //function to change levels
@@ -110,15 +119,151 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     {
         this.player = Player(position = currentLatLng)
 
-        // Make initial mobs spawn here
-        // After creating class for spawning mobs use as following:
-//        var monster = MonsterClass(
-//            player = player,
-//            position = LatLng(monsterPosition), // Values in 0.0001 or lower because of scale
-//            mMap = mMap
-//        )
+        this.monster = MonsterMoving(
+            player = player,
+            position = LatLng(this.player.position.latitude + 0.0002, this.player.position.longitude - 0.001), // Values in 0.0001 or lower because of scale
+            mMap = mMap
+        )
+        this.monsterController.monsterActivate(this.monster)
+
+        val handler = Handler(Looper.getMainLooper())
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                currentPlayerLocation?.let { location ->
+                    // Call your function with the current player location
+                    monsterSpawner(location)
+                }
+
+                handler.postDelayed(this, 10000)
+            }
+        }, 10000)
 
         this.initialized = true
+    }
+
+    private fun monsterSpawner(playerLocation: LatLng)
+    {
+        this.player = Player(position = playerLocation)
+        var dice: Int = Random.nextInt(1, 11)
+        var randomLatitude = randomPosition()
+        var randomLongitude = randomPosition()
+        val selectedDifficulty = intent.getStringExtra("selectedDifficulty")
+        Toast.makeText(this, "Selected Difficulty: $randomLongitude", Toast.LENGTH_SHORT).show()
+        if(selectedDifficulty == "Easy")
+        {
+            if(dice < 7) {
+                this.monster = MonsterStanding(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+            else if(dice <9)
+            {
+                this.monster = MonsterWandering(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+            else if(dice<11)
+            {
+                this.monster = MonsterMoving(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+        }
+        else if(selectedDifficulty == "Medium")
+        {
+            if(dice < 5) {
+                this.monster = MonsterStanding(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+            else if(dice <8)
+            {
+                this.monster = MonsterWandering(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+            else if(dice<11)
+            {
+                this.monster = MonsterMoving(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+        }
+        else if(selectedDifficulty == "Hard")
+        {
+            if(dice < 4) {
+                this.monster = MonsterStanding(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+            else if(dice <7)
+            {
+                this.monster = MonsterWandering(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+            else if(dice<11)
+            {
+                this.monster = MonsterMoving(
+                    player = player,
+                    position = LatLng(
+                        this.player.position.latitude - randomLatitude,
+                        this.player.position.longitude - randomLongitude
+                    ), // Values in 0.0001 or lower because of scale
+                    mMap = mMap
+                )
+            }
+        }
+        this.monsterController.monsterActivate(this.monster)
+    }
+    private fun randomPosition(): Double
+    {
+        var randomNumber = 0
+        while (randomNumber == 0) {
+            randomNumber = Random.nextInt(-9, 10)
+        }
+        return randomNumber.toDouble()/10000
     }
 
     override fun onMapReady(
@@ -144,12 +289,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
+                currentPlayerLocation = currentLatLng
                 mMap.addMarker(MarkerOptions().position(currentLatLng).title(MARKER_TITLE))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM_LEVEL))
 
                 if (!this.initialized) this.gameInit(currentLatLng)
 
                 this.player.changePosition(currentLatLng)
+
 
                 // Make spawner with monster list invoke this action
                 // this.monsterController.monsterActivate(monster)
