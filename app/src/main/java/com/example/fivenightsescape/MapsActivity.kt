@@ -151,44 +151,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     {
         this.player = Player(position = playerLocation)
         var dice: Int = Random.nextInt(DICE_MIN, DICE_MAX)
-        var randomLatitude = randomPosition()
-        var randomLongitude = randomPosition()
         val selectedDifficulty = intent.getStringExtra("selectedDifficulty")
         if(selectedDifficulty == "Easy")
         {
             when {
                 dice < EASY_SPAWNER_BASIC -> {
-                    this.monster = MonsterStanding(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterStanding()
                 }
                 dice < EASY_SPAWNER_BASIC + EASY_SPAWNER_MODIFIER -> {
-                    this.monster = MonsterWandering(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterWandering()
                 }
                 dice < EASY_SPAWNER_BASIC + EASY_SPAWNER_MODIFIER + EASY_SPAWNER_MODIFIER -> {
-                    this.monster = MonsterMoving(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterMoving()
                 }
                 else -> {
-                    return
+                    //do some error
                 }
             }
         }
@@ -196,37 +173,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         {
             when {
                 dice < MEDIUM_SPAWNER_BASIC -> {
-                    this.monster = MonsterStanding(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterStanding()
                 }
                 dice < MEDIUM_SPAWNER_BASIC + MEDIUM_SPAWNER_MODIFIER -> {
-                    this.monster = MonsterWandering(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterWandering()
                 }
                 dice < MEDIUM_SPAWNER_BASIC + MEDIUM_SPAWNER_MODIFIER + MEDIUM_SPAWNER_MODIFIER -> {
-                    this.monster = MonsterMoving(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterMoving()
                 }
                 else -> {
-                    return
+                    //do some error
                 }
             }
         }
@@ -234,40 +190,60 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         {
             when {
                 dice < HARD_SPAWNER_BASIC -> {
-                    this.monster = MonsterStanding(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterStanding()
                 }
                 dice < HARD_SPAWNER_BASIC + HARD_SPAWNER_MODIFIER -> {
-                    this.monster = MonsterWandering(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterWandering()
                 }
                 dice < HARD_SPAWNER_BASIC + HARD_SPAWNER_MODIFIER + HARD_SPAWNER_MODIFIER -> {
-                    this.monster = MonsterMoving(
-                        player = player,
-                        position = LatLng(
-                            this.player.position.latitude - randomLatitude,
-                            this.player.position.longitude - randomLongitude
-                        ),
-                        mMap = mMap
-                    )
+                    this.spawnMonsterMoving()
                 }
                 else -> {
-                    return
+                    //do some error
                 }
             }
         }
+    }
+    private fun spawnMonsterStanding()
+    {
+        var randomLatitude = randomPosition()
+        var randomLongitude = randomPosition()
+        this.monster = MonsterStanding(
+            player = player,
+            position = LatLng(
+                this.player.position.latitude - randomLatitude,
+                this.player.position.longitude - randomLongitude
+            ),
+            mMap = mMap
+        )
+        this.monsterController.monsterActivate(this.monster)
+    }
+    private fun spawnMonsterWandering()
+    {
+        var randomLatitude = randomPosition()
+        var randomLongitude = randomPosition()
+        this.monster = MonsterWandering(
+            player = player,
+            position = LatLng(
+                this.player.position.latitude - randomLatitude,
+                this.player.position.longitude - randomLongitude
+            ),
+            mMap = mMap
+        )
+        this.monsterController.monsterActivate(this.monster)
+    }
+    private fun spawnMonsterMoving()
+    {
+        var randomLatitude = randomPosition()
+        var randomLongitude = randomPosition()
+        this.monster = MonsterMoving(
+            player = player,
+            position = LatLng(
+                this.player.position.latitude - randomLatitude,
+                this.player.position.longitude - randomLongitude
+            ),
+            mMap = mMap
+        )
         this.monsterController.monsterActivate(this.monster)
     }
     private fun randomPosition(): Double
