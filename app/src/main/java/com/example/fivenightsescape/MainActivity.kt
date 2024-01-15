@@ -4,17 +4,30 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.RadioGroup
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.menu_layout)
 
-        val startButton: Button = findViewById(R.id.startButton)
+        val difficultyOptions = findViewById<RadioGroup>(R.id.difficultyOptions)
 
-        startButton.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
-            startActivity(intent)
+        difficultyOptions.setOnCheckedChangeListener { _, checkedId ->
+            val selectedDifficulty = when (checkedId) {
+                R.id.easy -> "Easy"
+                R.id.medium -> "Medium"
+                R.id.hard -> "Hard"
+                else -> "Unknown"
+            }
+
+            val startButton: Button = findViewById(R.id.startButton)
+
+            startButton.setOnClickListener {
+                val intent = Intent(this, MapsActivity::class.java)
+                intent.putExtra("selectedDifficulty", selectedDifficulty)
+                startActivity(intent)
+            }
         }
     }
 }
