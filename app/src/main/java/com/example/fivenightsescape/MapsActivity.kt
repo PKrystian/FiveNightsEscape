@@ -152,55 +152,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         this.player = Player(position = playerLocation)
         var dice: Int = Random.nextInt(DICE_MIN, DICE_MAX)
         val selectedDifficulty = intent.getStringExtra("selectedDifficulty")
-        if(selectedDifficulty == "Easy")
-        {
-            when {
-                dice < EASY_SPAWNER_BASIC -> {
-                    this.spawnMonsterStanding()
-                }
-                dice < EASY_SPAWNER_BASIC + EASY_SPAWNER_MODIFIER -> {
-                    this.spawnMonsterWandering()
-                }
-                dice < EASY_SPAWNER_BASIC + EASY_SPAWNER_MODIFIER + EASY_SPAWNER_MODIFIER -> {
-                    this.spawnMonsterMoving()
-                }
-                else -> {
-                    //do some error
-                }
+        when (selectedDifficulty) {
+            "Easy" -> spawnMonsterForDifficulty(dice, EASY_SPAWNER_BASIC, EASY_SPAWNER_MODIFIER)
+            "Medium" -> spawnMonsterForDifficulty(dice, MEDIUM_SPAWNER_BASIC, MEDIUM_SPAWNER_MODIFIER)
+            "Hard" -> spawnMonsterForDifficulty(dice, HARD_SPAWNER_BASIC, HARD_SPAWNER_MODIFIER)
+            else -> {
+                // do some log error
             }
         }
-        else if(selectedDifficulty == "Medium")
-        {
-            when {
-                dice < MEDIUM_SPAWNER_BASIC -> {
-                    this.spawnMonsterStanding()
-                }
-                dice < MEDIUM_SPAWNER_BASIC + MEDIUM_SPAWNER_MODIFIER -> {
-                    this.spawnMonsterWandering()
-                }
-                dice < MEDIUM_SPAWNER_BASIC + MEDIUM_SPAWNER_MODIFIER + MEDIUM_SPAWNER_MODIFIER -> {
-                    this.spawnMonsterMoving()
-                }
-                else -> {
-                    //do some error
-                }
-            }
-        }
-        else if(selectedDifficulty == "Hard")
-        {
-            when {
-                dice < HARD_SPAWNER_BASIC -> {
-                    this.spawnMonsterStanding()
-                }
-                dice < HARD_SPAWNER_BASIC + HARD_SPAWNER_MODIFIER -> {
-                    this.spawnMonsterWandering()
-                }
-                dice < HARD_SPAWNER_BASIC + HARD_SPAWNER_MODIFIER + HARD_SPAWNER_MODIFIER -> {
-                    this.spawnMonsterMoving()
-                }
-                else -> {
-                    //do some error
-                }
+    }
+    private fun spawnMonsterForDifficulty(dice: Int, basicThreshold: Int, modifier: Int) {
+        when {
+            dice < basicThreshold -> spawnMonsterStanding()
+            dice < basicThreshold + modifier -> spawnMonsterWandering()
+            dice < basicThreshold + modifier + modifier -> spawnMonsterMoving()
+            else -> {
+                // do some log error
             }
         }
     }
