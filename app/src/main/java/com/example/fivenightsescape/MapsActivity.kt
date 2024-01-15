@@ -156,7 +156,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             "Medium" -> spawnMonsterForDifficulty(dice, MEDIUM_SPAWNER_BASIC, MEDIUM_SPAWNER_MODIFIER)
             "Hard" -> spawnMonsterForDifficulty(dice, HARD_SPAWNER_BASIC, HARD_SPAWNER_MODIFIER)
             else -> {
-                //TODO: do some log error
+                // do some log error
             }
         }
     }
@@ -166,7 +166,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             dice < basicThreshold + modifier -> spawnMonsterWandering()
             dice < basicThreshold + modifier + modifier -> spawnMonsterMoving()
             else -> {
-                //TODO: do some log error
+                // do some log error
             }
         }
     }
