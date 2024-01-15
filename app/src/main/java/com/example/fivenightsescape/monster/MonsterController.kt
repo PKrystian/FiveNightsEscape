@@ -41,7 +41,7 @@ class MonsterController {
         }
     }
 
-    fun addMonster(monster: Monster) {
+    private fun addMonster(monster: Monster) {
         monsters.add(monster)
 
         when (monster.monsterType) {

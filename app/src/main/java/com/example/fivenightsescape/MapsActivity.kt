@@ -150,14 +150,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun monsterSpawner(playerLocation: LatLng)
     {
         this.player = Player(position = playerLocation)
-        var dice: Int = Random.nextInt(DICE_MIN, DICE_MAX)
-        val selectedDifficulty = intent.getStringExtra("selectedDifficulty")
-        when (selectedDifficulty) {
+        val dice: Int = Random.nextInt(DICE_MIN, DICE_MAX)
+        when (intent.getStringExtra("selectedDifficulty")) {
             "Easy" -> spawnMonsterForDifficulty(dice, EASY_SPAWNER_BASIC, EASY_SPAWNER_MODIFIER)
             "Medium" -> spawnMonsterForDifficulty(dice, MEDIUM_SPAWNER_BASIC, MEDIUM_SPAWNER_MODIFIER)
             "Hard" -> spawnMonsterForDifficulty(dice, HARD_SPAWNER_BASIC, HARD_SPAWNER_MODIFIER)
             else -> {
-                // do some log error
+                //TODO: do some log error
             }
         }
     }
@@ -167,14 +166,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             dice < basicThreshold + modifier -> spawnMonsterWandering()
             dice < basicThreshold + modifier + modifier -> spawnMonsterMoving()
             else -> {
-                // do some log error
+                //TODO: do some log error
             }
         }
     }
     private fun spawnMonsterStanding()
     {
-        var randomLatitude = randomPosition()
-        var randomLongitude = randomPosition()
+        val randomLatitude = randomPosition()
+        val randomLongitude = randomPosition()
         this.monster = MonsterStanding(
             player = player,
             position = LatLng(
@@ -187,8 +186,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun spawnMonsterWandering()
     {
-        var randomLatitude = randomPosition()
-        var randomLongitude = randomPosition()
+        val randomLatitude = randomPosition()
+        val randomLongitude = randomPosition()
         this.monster = MonsterWandering(
             player = player,
             position = LatLng(
@@ -201,8 +200,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     private fun spawnMonsterMoving()
     {
-        var randomLatitude = randomPosition()
-        var randomLongitude = randomPosition()
+        val randomLatitude = randomPosition()
+        val randomLongitude = randomPosition()
         this.monster = MonsterMoving(
             player = player,
             position = LatLng(

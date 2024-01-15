@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         val difficultyOptions = findViewById<RadioGroup>(R.id.difficultyOptions)
 
-        difficultyOptions.setOnCheckedChangeListener { group, checkedId ->
+        difficultyOptions.setOnCheckedChangeListener { _, checkedId ->
             val selectedDifficulty = when (checkedId) {
                 R.id.easy -> "Easy"
                 R.id.medium -> "Medium"
@@ -21,13 +21,13 @@ class MainActivity : AppCompatActivity() {
                 else -> "Unknown"
             }
 
-        val startButton: Button = findViewById(R.id.startButton)
+            val startButton: Button = findViewById(R.id.startButton)
 
-        startButton.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
-            intent.putExtra("selectedDifficulty", selectedDifficulty)
-            startActivity(intent)
-        }
+            startButton.setOnClickListener {
+                val intent = Intent(this, MapsActivity::class.java)
+                intent.putExtra("selectedDifficulty", selectedDifficulty)
+                startActivity(intent)
+            }
         }
     }
 }
