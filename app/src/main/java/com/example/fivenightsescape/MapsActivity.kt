@@ -119,19 +119,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     {
         this.player = Player(position = currentLatLng)
 
-        this.monster = MonsterMoving(
-            player = player,
-            position = LatLng(this.player.position.latitude + 0.0002, this.player.position.longitude - 0.001), // Values in 0.0001 or lower because of scale
-            mMap = mMap
-        )
-        this.monsterController.monsterActivate(this.monster)
 
         val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
                 currentPlayerLocation?.let { location ->
-                    // Call your function with the current player location
                     monsterSpawner(location)
                 }
 
@@ -149,110 +142,118 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         var randomLatitude = randomPosition()
         var randomLongitude = randomPosition()
         val selectedDifficulty = intent.getStringExtra("selectedDifficulty")
-        Toast.makeText(this, "Selected Difficulty: $randomLongitude", Toast.LENGTH_SHORT).show()
         if(selectedDifficulty == "Easy")
         {
-            if(dice < 7) {
-                this.monster = MonsterStanding(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
-            }
-            else if(dice <9)
-            {
-                this.monster = MonsterWandering(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
-            }
-            else if(dice<11)
-            {
-                this.monster = MonsterMoving(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
+            when {
+                dice < 7 -> {
+                    this.monster = MonsterStanding(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                dice < 9 -> {
+                    this.monster = MonsterWandering(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                dice < 11 -> {
+                    this.monster = MonsterMoving(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                else -> {
+                    return
+                }
             }
         }
         else if(selectedDifficulty == "Medium")
         {
-            if(dice < 5) {
-                this.monster = MonsterStanding(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
-            }
-            else if(dice <8)
-            {
-                this.monster = MonsterWandering(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
-            }
-            else if(dice<11)
-            {
-                this.monster = MonsterMoving(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
+            when {
+                dice < 5 -> {
+                    this.monster = MonsterStanding(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                dice < 8 -> {
+                    this.monster = MonsterWandering(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                dice < 11 -> {
+                    this.monster = MonsterMoving(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                else -> {
+                    return
+                }
             }
         }
         else if(selectedDifficulty == "Hard")
         {
-            if(dice < 4) {
-                this.monster = MonsterStanding(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
-            }
-            else if(dice <7)
-            {
-                this.monster = MonsterWandering(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
-            }
-            else if(dice<11)
-            {
-                this.monster = MonsterMoving(
-                    player = player,
-                    position = LatLng(
-                        this.player.position.latitude - randomLatitude,
-                        this.player.position.longitude - randomLongitude
-                    ), // Values in 0.0001 or lower because of scale
-                    mMap = mMap
-                )
+            when {
+                dice < 4 -> {
+                    this.monster = MonsterStanding(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                dice < 7 -> {
+                    this.monster = MonsterWandering(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                dice < 11 -> {
+                    this.monster = MonsterMoving(
+                        player = player,
+                        position = LatLng(
+                            this.player.position.latitude - randomLatitude,
+                            this.player.position.longitude - randomLongitude
+                        ),
+                        mMap = mMap
+                    )
+                }
+                else -> {
+                    return
+                }
             }
         }
         this.monsterController.monsterActivate(this.monster)
