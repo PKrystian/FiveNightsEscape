@@ -24,10 +24,10 @@ const val MONSTER_TYPE_STANDING_RANGE: Double = 10.0
 const val MONSTER_TYPE_MOVING_RANGE: Double = 10.0
 const val MONSTER_TYPE_WANDERING_RANGE: Double = 10.0
 
-const val MONSTER_DEFAULT_COLOR = Color.BLACK
-const val MONSTER_TYPE_STANDING_COLOR = 0x827e0c
-const val MONSTER_TYPE_MOVING_COLOR = 0xff0000
-const val MONSTER_TYPE_WANDERING_COLOR = 0xcc6f18
+const val MONSTER_DEFAULT_COLOR = "#000000"
+const val MONSTER_TYPE_STANDING_COLOR = "#827e0c"
+const val MONSTER_TYPE_MOVING_COLOR = "#ff0000"
+const val MONSTER_TYPE_WANDERING_COLOR = "#cc6f18"
 
 const val MONSTER_WANDER_OFFSET: Double = 0.0005
 
@@ -39,7 +39,7 @@ abstract class Monster(
 {
     var speed: Double = MONSTER_ZERO_SPEED
     var range: Double = MONSTER_ZERO_RANGE
-    var color: Int = MONSTER_DEFAULT_COLOR
+    var color: String = MONSTER_DEFAULT_COLOR
     var monsterType: String = ""
     var location: Location = Location("")
 
@@ -59,8 +59,8 @@ abstract class Monster(
         this.circle = mMap.addCircle(CircleOptions()
             .center(this.position)
             .radius(this.range)
-            .strokeColor(this.color)
-            .fillColor(this.color))
+            .strokeColor(Color.parseColor(this.color))
+            .fillColor(Color.parseColor(this.color)))
     }
 
     fun changePosition(position: LatLng)
@@ -74,8 +74,8 @@ abstract class Monster(
         this.circle = mMap.addCircle(CircleOptions()
             .center(this.position)
             .radius(this.range)
-            .strokeColor(this.color)
-            .fillColor(this.color))
+            .strokeColor(Color.parseColor(this.color))
+            .fillColor(Color.parseColor(this.color)))
     }
 
     fun attackPlayer()
