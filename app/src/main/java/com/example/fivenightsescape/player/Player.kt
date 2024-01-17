@@ -1,18 +1,22 @@
 package com.example.fivenightsescape.player
 
 import android.location.Location
+import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
-const val PLAYER_HEALTH = 3
+private const val PLAYER_HEALTH = 3
 
-class Player(var position: LatLng): ViewModel() {
+class Player(var position: LatLng, val healthBar: TextView): ViewModel() {
     private var health: Int = PLAYER_HEALTH
+
     var location: Location = Location("")
 
     init {
         this.location.latitude = this.position.latitude
         this.location.longitude = this.position.longitude
+
+        this.healthBar.text = this.health.toString()
     }
 
     fun changePosition(position: LatLng)
@@ -26,6 +30,8 @@ class Player(var position: LatLng): ViewModel() {
     fun takeDamage(damage: Int = 1)
     {
         this.health -= damage
+
+        this.healthBar.text = this.health.toString()
 
         if (this.health <= 0) {
             this.death()
