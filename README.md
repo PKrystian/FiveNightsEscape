@@ -32,21 +32,21 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 - [x] Taking into account the User's location
 
-- [ ] Drawing the location of monsters near the User
+- [x] Drawing the location of monsters near the User
 
-- [ ] Tracking the User's progress in avoiding monsters
+- [x] Tracking the User's progress in avoiding monsters
 
 ## Technical requirements (minimum):
 
 - [x] Support for maps (for example: OpenStreetMaps, Google)
 
-- [ ] Gesture support
+- [x] Gesture support
 
 - [x] Detection of the User's location
 
-- [ ] Use of intentions
+- [x] Use of intentions
 
-- [ ] Use of notifications (for example, Toast)
+- [x] Use of notifications (for example, Toast)
 
 - [ ] Use of style overrides
 
@@ -58,9 +58,9 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 - [ ] Documentation (description of how it works, possible diagrams, flow, etc.)
 
-- [ ] Working application
+- [x] Working application
 
-- [ ] Demonstration of operation (on device/device emulator)
+- [x] Demonstration of operation (on device/device emulator)
 
 - [ ] Uploading the project to the platform (EVERY person in the group uploads the SAME)
 
@@ -70,15 +70,15 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 - [ ] Meeting the technical requirements
 
-- [ ] Meeting the requirements of the application theme
+- [x] Meeting the requirements of the application theme
 
 - [ ] Prepared documentation
 
 - [ ] Presentation
 
-- [ ] Operation of the application
+- [x] Operation of the application
 
-- [ ] Aesthetics of the application and documentation
+- [x] Aesthetics of the application and documentation
 
 ## Presentation of the application:
 
