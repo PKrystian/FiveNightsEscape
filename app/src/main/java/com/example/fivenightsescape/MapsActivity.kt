@@ -36,6 +36,7 @@ private const val DEFAULT_SPEED_PROGRESSION = 2
 private const val DEFAULT_LEVEL_PROGRESSION = 1
 private const val PERCENT = 100
 private const val MONSTER_SPAWN_DELAY: Long = 10000
+private const val PLAYER_HEALTH_MONITOR_INTERVAL: Long = 500
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -61,7 +62,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var currentPlayerLocation: LatLng? = null
 
     private fun monitorPlayerHealth(): CountDownTimer {
-        return object : CountDownTimer(1000, 1000) {
+        return object : CountDownTimer(PLAYER_HEALTH_MONITOR_INTERVAL, PLAYER_HEALTH_MONITOR_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 // do something
             }
@@ -137,14 +138,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         this.monsterSpawner = MonsterSpawner(
             player = this.player,
             mMap = mMap,
-            difficulty = intent.getStringExtra("selectedDifficulty")
+            difficulty = intent.getStringExtra(INTENT_EXTRA)
         )
 
         val handler = Handler(Looper.getMainLooper())
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                currentPlayerLocation?.let { location ->
+                currentPlayerLocation?.let {
                     monsterSpawner.addMonster()
                 }
 
