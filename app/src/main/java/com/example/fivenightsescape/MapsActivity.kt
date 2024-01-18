@@ -18,6 +18,9 @@ import androidx.core.content.ContextCompat
 import com.example.fivenightsescape.monster.MonsterSpawner
 import com.example.fivenightsescape.player.Player
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -128,8 +131,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun gameInit(currentLatLng: LatLng)
-    {
+    private fun gameInit(currentLatLng: LatLng) {
         this.player = Player(
             position = currentLatLng,
             healthBar = this.findViewById(R.id.healthIndicator)
@@ -177,21 +179,37 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                currentPlayerLocation = currentLatLng
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM_LEVEL))
+        val locationRequest = LocationRequest.create().apply {
+            interval = 50
+            fastestInterval = 25
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
 
-                if (!this.initialized) this.gameInit(currentLatLng)
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations){
+                    if (location != null) {
+                        val currentLatLng = LatLng(location.latitude, location.longitude)
+                        currentPlayerLocation = currentLatLng
 
-                this.player.changePosition(currentLatLng)
+                        if (!initialized) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM_LEVEL))
+                            gameInit(currentLatLng)
+                        } else {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
+                        }
 
-                this.monsterSpawner.updateMonsters()
-            } else {
-                Toast.makeText(this, TOAST_TEXT_ERROR, Toast.LENGTH_SHORT).show()
+                        player.changePosition(currentLatLng)
+
+                        monsterSpawner.updateMonsters()
+                    } else {
+                        Toast.makeText(this@MapsActivity, TOAST_TEXT_ERROR, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
     override fun onRequestPermissionsResult(
@@ -209,8 +227,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun gameOver()
-    {
+    private fun gameOver() {
         this.purgeEverything()
 
         val intent = Intent(this@MapsActivity, MainActivity::class.java)
@@ -218,8 +235,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         this.finish()
     }
 
-    private fun purgeEverything()
-    {
+    private fun purgeEverything() {
         this.timerONE.stop() //stops timer
         this.handlerTimer.removeCallbacks(newLevel) //stops level counting
 
