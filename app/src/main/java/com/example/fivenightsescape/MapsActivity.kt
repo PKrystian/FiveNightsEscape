@@ -12,7 +12,6 @@ import android.os.Handler
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.os.Looper
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,9 +27,6 @@ import com.google.android.gms.maps.model.LatLng
 
 private const val REQUEST_ACCESS_FINE_LOCATION = 1
 private const val DEFAULT_ZOOM_LEVEL = 15f
-private const val LOG_TAG = "MapsActivity"
-private const val LOG_ERROR_MESSAGE = "Unexpected error with: "
-private const val MARKER_TITLE = "Your Location"
 private const val TOAST_TEXT_ERROR = "Unable to get current location"
 private const val TOAST_TEXT_DENIED = "Location permission denied"
 private const val DEFAULT_DELAY: Long = 500

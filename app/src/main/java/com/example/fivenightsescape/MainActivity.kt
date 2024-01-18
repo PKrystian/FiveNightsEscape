@@ -8,9 +8,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.RadioGroup
-import com.example.fivenightsescape.monster.DIFFICULTY_EASY
-import com.example.fivenightsescape.monster.DIFFICULTY_HARD
-import com.example.fivenightsescape.monster.DIFFICULTY_MEDIUM
 import android.widget.Toast
 
 private const val LOG_TAG = "MainActivity"
