@@ -31,7 +31,7 @@ const val MONSTER_TYPE_WANDERING_COLOR = "#cc6f18"
 
 const val MONSTER_WANDER_OFFSET: Double = 0.0005
 
-abstract class Monster(
+open class Monster(
     val damage: Int = MONSTER_DAMAGE,
     var player: Player,
     var position: LatLng,

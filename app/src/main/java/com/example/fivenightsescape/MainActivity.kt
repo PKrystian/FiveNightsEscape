@@ -40,7 +40,10 @@ class MainActivity : AppCompatActivity() {
                 velocityY: Float
             ): Boolean {
                 if (e1 != null && e1.x < e2.x) {
-                    val selectedDifficulty = getSelectedDifficulty(difficultyOptions.checkedRadioButtonId, difficultyOptions)
+                    val selectedDifficulty = getSelectedDifficulty(
+                        difficultyOptions.checkedRadioButtonId,
+                        difficultyOptions
+                    )
                     startMapsActivity(selectedDifficulty)
                 }
                 return super.onFling(e1, e2, velocityX, velocityY)
