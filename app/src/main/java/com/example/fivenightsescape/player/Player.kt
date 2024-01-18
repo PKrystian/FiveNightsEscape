@@ -23,7 +23,7 @@ class Player(
         this.location.longitude = this.position.longitude
 
         this.healthBar?.text = buildString {
-            append("Health ")
+            append("Health: ")
             append(health)
         }
     }
@@ -41,7 +41,7 @@ class Player(
         this.health -= damage
 
         this.healthBar?.text = buildString {
-            append("Health ")
+            append("Health: ")
             append(health)
         }
     }
