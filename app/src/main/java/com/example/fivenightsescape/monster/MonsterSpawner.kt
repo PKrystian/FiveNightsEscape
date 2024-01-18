@@ -114,4 +114,9 @@ class MonsterSpawner(
         }
         return randomNumber.toDouble() / DIVIDER
     }
+
+    fun despawnAll()
+    {
+        this.monsterController.killAll()
+    }
 }

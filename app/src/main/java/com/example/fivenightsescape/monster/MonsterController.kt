@@ -133,4 +133,20 @@ class MonsterController {
         monsterMoveTimers[monster] = moveTimer
         moveTimer.start()
     }
+
+    fun killAll()
+    {
+        for (monster in this.monsterMoveTimers.keys) {
+            this.monsterMoveTimers[monster]?.cancel()
+        }
+
+        for (monster in this.monsterWanderTimers.keys) {
+            this.monsterWanderTimers[monster]?.cancel()
+        }
+
+        this.monsterMoveTimers.clear()
+        this.monsterWanderTimers.clear()
+
+        this.monsters.clear()
+    }
 }

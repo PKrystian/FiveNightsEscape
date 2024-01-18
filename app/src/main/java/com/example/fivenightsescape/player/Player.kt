@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 private const val PLAYER_HEALTH = 3
 
 class Player(var position: LatLng, val healthBar: TextView): ViewModel() {
-    private var health: Int = PLAYER_HEALTH
+    var health: Int = PLAYER_HEALTH
 
     var location: Location = Location("")
 
@@ -32,14 +32,5 @@ class Player(var position: LatLng, val healthBar: TextView): ViewModel() {
         this.health -= damage
 
         this.healthBar.text = this.health.toString()
-
-        if (this.health <= 0) {
-            this.death()
-        }
-    }
-
-    private fun death()
-    {
-        // Implement GAME OVER Screen etc.
     }
 }

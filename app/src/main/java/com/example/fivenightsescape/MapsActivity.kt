@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.Toast
@@ -49,22 +50,43 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var initialized: Boolean = false
 
     //timer and lv things
+    private lateinit var timerONE :Chronometer
+
     //levelChanger * delay = every how many milliseconds next lv, it changes every two levels
     private var levelChanger = DEFAULT_LEVEL_CHANGER
     private val delay = DEFAULT_DELAY
     private var currentLevel = 1 //lv the player is on
     private var subLevel = 0 // for the progressbar and to change level length
     private val handlerTimer = Handler(Looper.getMainLooper())
+
     private lateinit var levelText: TextView
     private lateinit var progressBar: ProgressBar
+
     private var currentPlayerLocation: LatLng? = null
+
+    private fun monitorPlayerHealth(): CountDownTimer {
+        return object : CountDownTimer(1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                // do something
+            }
+
+            override fun onFinish() {
+                if (player.health <= 0) {
+                    gameOver()
+                    return
+                }
+
+                monitorPlayerHealth().start()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-
         //timer
-        val timerONE :Chronometer = findViewById(R.id.timerONE)
+        timerONE = findViewById(R.id.timerONE)
         timerONE.start()
         handlerTimer.postDelayed(newLevel, delay)
         //level indicator
@@ -76,16 +98,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val stopButton: Button = findViewById(R.id.stopButton)
 
         stopButton.setOnClickListener {
-            timerONE.stop() //stops timer
-            handlerTimer.removeCallbacks(newLevel) //stops level counting
+            this.purgeEverything()
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-
     }
 
     //function to change levels
@@ -136,6 +156,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }, MONSTER_SPAWN_DELAY)
 
+        this.monitorPlayerHealth().start()
         this.initialized = true
     }
 
@@ -189,5 +210,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.makeText(this, TOAST_TEXT_DENIED, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun gameOver()
+    {
+        this.purgeEverything()
+
+        val intent = Intent(this@MapsActivity, MainActivity::class.java)
+        startActivity(intent)
+        this.finish()
+    }
+
+    private fun purgeEverything()
+    {
+        this.timerONE.stop() //stops timer
+        this.handlerTimer.removeCallbacks(newLevel) //stops level counting
+
+        this.monitorPlayerHealth().cancel()
+
+        this.monsterSpawner.despawnAll()
     }
 }

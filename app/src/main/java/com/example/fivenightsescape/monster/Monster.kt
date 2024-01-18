@@ -14,6 +14,7 @@ const val TYPE_MOVING = "moving"
 const val TYPE_WANDERING = "wandering"
 
 private const val MONSTER_DAMAGE: Int = 1
+private const val MONSTER_ZERO_DAMAGE: Int = 0
 
 const val MONSTER_ZERO_SPEED: Double = 0.0
 const val MONSTER_CHASING_SPEED: Double = 0.000003
@@ -34,7 +35,7 @@ private const val MONSTER_TYPE_WANDERING_COLOR = "#cc6f18"
 private const val MONSTER_WANDER_OFFSET: Double = 0.0005
 
 open class Monster(
-    val damage: Int = MONSTER_DAMAGE,
+    var damage: Int = MONSTER_DAMAGE,
     var player: Player,
     var position: LatLng,
     private var mMap: GoogleMap)
@@ -84,6 +85,7 @@ open class Monster(
     fun attackPlayer()
     {
         this.player.takeDamage(this.damage)
+        this.damage = MONSTER_ZERO_DAMAGE
         this.circle.remove()
     }
 }
