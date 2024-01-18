@@ -11,6 +11,7 @@ import android.os.Handler
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,6 +33,8 @@ import kotlin.random.Random
 
 private const val REQUEST_ACCESS_FINE_LOCATION = 1
 private const val DEFAULT_ZOOM_LEVEL = 15f
+private const val LOG_TAG = "MapsActivity"
+private const val LOG_ERROR_MESSAGE = "Unexpected error with: "
 private const val MARKER_TITLE = "Your Location"
 private const val TOAST_TEXT_ERROR = "Unable to get current location"
 private const val TOAST_TEXT_DENIED = "Location permission denied"
@@ -151,12 +154,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     {
         this.player = Player(position = playerLocation)
         val dice: Int = Random.nextInt(DICE_MIN, DICE_MAX)
-        when (intent.getStringExtra("selectedDifficulty")) {
-            "Easy" -> spawnMonsterForDifficulty(dice, EASY_SPAWNER_BASIC, EASY_SPAWNER_MODIFIER)
-            "Medium" -> spawnMonsterForDifficulty(dice, MEDIUM_SPAWNER_BASIC, MEDIUM_SPAWNER_MODIFIER)
-            "Hard" -> spawnMonsterForDifficulty(dice, HARD_SPAWNER_BASIC, HARD_SPAWNER_MODIFIER)
+        when (intent.getStringExtra(INTENT_EXTRA)) {
+            EASY -> spawnMonsterForDifficulty(dice, EASY_SPAWNER_BASIC, EASY_SPAWNER_MODIFIER)
+            MEDIUM -> spawnMonsterForDifficulty(dice, MEDIUM_SPAWNER_BASIC, MEDIUM_SPAWNER_MODIFIER)
+            HARD -> spawnMonsterForDifficulty(dice, HARD_SPAWNER_BASIC, HARD_SPAWNER_MODIFIER)
             else -> {
-                // do some log error
+                Log.w(LOG_TAG, "$LOG_ERROR_MESSAGE ${intent.getStringExtra(INTENT_EXTRA)}")
             }
         }
     }
@@ -166,7 +169,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             dice < basicThreshold + modifier -> spawnMonsterWandering()
             dice < basicThreshold + modifier + modifier -> spawnMonsterMoving()
             else -> {
-                // do some log error
+                Log.w(LOG_TAG, "$LOG_ERROR_MESSAGE ${intent.getStringExtra(INTENT_EXTRA)}")
             }
         }
     }

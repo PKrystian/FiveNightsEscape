@@ -13,10 +13,10 @@ import android.widget.Toast
 private const val LOG_TAG = "MainActivity"
 private const val LOG_ERROR_MESSAGE = "Unexpected difficulty option selected"
 private const val UNSELECTED_DIFFICULTY_MESSAGE = "Please select a difficulty level"
-private const val INTENT_EXTRA = "selectedDifficulty"
-private const val EASY = "Easy"
-private const val MEDIUM = "Medium"
-private const val HARD = "Hard"
+const val INTENT_EXTRA = "selectedDifficulty"
+const val EASY = "Easy"
+const val MEDIUM = "Medium"
+const val HARD = "Hard"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gestureDetector: GestureDetector
