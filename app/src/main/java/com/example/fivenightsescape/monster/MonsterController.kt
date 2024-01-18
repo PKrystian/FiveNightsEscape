@@ -4,12 +4,12 @@ import android.location.Location
 import android.os.CountDownTimer
 import com.google.android.gms.maps.model.LatLng
 
-const val DEFAULT_COUNTDOWN_INTERVAL_MOVING: Long = 100
-const val DEFAULT_COUNTFROM: Long = 1000
+private const val DEFAULT_COUNTDOWN_INTERVAL_MOVING: Long = 250
+private const val DEFAULT_COUNT_FROM: Long = 500
 
-const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
+private const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
 
-const val DEFAULT_WANDERING_DISTANCE = 10
+private const val DEFAULT_WANDERING_DISTANCE = 10
 
 
 class MonsterController {
@@ -18,7 +18,7 @@ class MonsterController {
     private val monsterWanderTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
 
     private fun createMonsterMoveTimer(monster: Monster): CountDownTimer {
-        return object : CountDownTimer(DEFAULT_COUNTFROM, DEFAULT_COUNTDOWN_INTERVAL_MOVING) {
+        return object : CountDownTimer(DEFAULT_COUNT_FROM, DEFAULT_COUNTDOWN_INTERVAL_MOVING) {
             override fun onTick(millisUntilFinished: Long) {
                 // do something
             }
@@ -30,7 +30,7 @@ class MonsterController {
     }
 
     private fun createMonsterWanderTimer(monster: Monster): CountDownTimer {
-        return object : CountDownTimer(DEFAULT_COUNTFROM, DEFAULT_COUNTDOWN_INTERVAL_WANDERING) {
+        return object : CountDownTimer(DEFAULT_COUNT_FROM, DEFAULT_COUNTDOWN_INTERVAL_WANDERING) {
             override fun onTick(millisUntilFinished: Long) {
                 // do something
             }
@@ -41,7 +41,7 @@ class MonsterController {
         }
     }
 
-    private fun addMonster(monster: Monster) {
+    fun addMonster(monster: Monster) {
         monsters.add(monster)
 
         when (monster.monsterType) {
@@ -53,13 +53,14 @@ class MonsterController {
         }
     }
 
-    fun monsterActivate(monster: Monster) {
-        addMonster(monster)
-    }
-
-    fun monsterAlert(monster: Monster) {
-        if (monster.location.distanceTo(monster.player.location) <= monster.range) {
-            monsterAction(monster)
+    fun monsterAlert() {
+        for (monster in this.monsters) {
+            if (monster.location.distanceTo(monster.player.location) <= monster.range) {
+                actionAttack(monster)
+            }
+            if (monster.location.distanceTo(monster.player.location) <= monster.detectRange) {
+                monsterAction(monster)
+            }
         }
     }
 
@@ -69,9 +70,11 @@ class MonsterController {
                 actionAttack(monster)
             }
             TYPE_MOVING -> {
+                monster.speed = MONSTER_CHASING_SPEED
                 actionChase(monster)
             }
             TYPE_WANDERING -> {
+                monster.speed = MONSTER_CHASING_SPEED
                 monsterWanderTimers[monster]?.cancel()
                 actionChase(monster)
             }
@@ -79,7 +82,8 @@ class MonsterController {
     }
 
     private fun actionAttack(monster: Monster) {
-        monster.player.takeDamage(monster.damage)
+        monster.attackPlayer()
+        this.monsters.remove(monster)
     }
 
     private fun actionWander(monster: Monster) {
@@ -121,11 +125,28 @@ class MonsterController {
 
         if (monster.location.distanceTo(monster.player.location) <= monster.range) {
             monsterMoveTimers[monster]?.cancel()
+            this.actionAttack(monster)
             return
         }
 
         val moveTimer = createMonsterMoveTimer(monster)
         monsterMoveTimers[monster] = moveTimer
         moveTimer.start()
+    }
+
+    fun killAll()
+    {
+        for (monster in this.monsterMoveTimers.keys) {
+            this.monsterMoveTimers[monster]?.cancel()
+        }
+
+        for (monster in this.monsterWanderTimers.keys) {
+            this.monsterWanderTimers[monster]?.cancel()
+        }
+
+        this.monsterMoveTimers.clear()
+        this.monsterWanderTimers.clear()
+
+        this.monsters.clear()
     }
 }

@@ -13,32 +13,36 @@ const val TYPE_STANDING = "standing"
 const val TYPE_MOVING = "moving"
 const val TYPE_WANDERING = "wandering"
 
-const val MONSTER_DAMAGE: Int = 1
+private const val MONSTER_DAMAGE: Int = 1
+private const val MONSTER_ZERO_DAMAGE: Int = 0
 
 const val MONSTER_ZERO_SPEED: Double = 0.0
-const val MONSTER_CHASING_SPEED: Double = 0.0001
-const val MONSTER_WANDERING_SPEED: Double = 0.00005
+const val MONSTER_CHASING_SPEED: Double = 0.000003
+const val MONSTER_WANDERING_SPEED: Double = 0.000005
 
-const val MONSTER_ZERO_RANGE: Double = 0.0
-const val MONSTER_TYPE_STANDING_RANGE: Double = 10.0
-const val MONSTER_TYPE_MOVING_RANGE: Double = 10.0
-const val MONSTER_TYPE_WANDERING_RANGE: Double = 10.0
+private const val MONSTER_ZERO_RANGE: Double = 0.0
+private const val MONSTER_TYPE_STANDING_RANGE: Double = 8.0
+private const val MONSTER_TYPE_MOVING_RANGE: Double = 6.0
+private const val MONSTER_TYPE_WANDERING_RANGE: Double = 5.0
 
-const val MONSTER_DEFAULT_COLOR = "#000000"
-const val MONSTER_TYPE_STANDING_COLOR = "#827e0c"
-const val MONSTER_TYPE_MOVING_COLOR = "#ff0000"
-const val MONSTER_TYPE_WANDERING_COLOR = "#cc6f18"
+private const val MONSTER_DEFAULT_DETECT_RANGE: Double = 100.0
 
-const val MONSTER_WANDER_OFFSET: Double = 0.0005
+private const val MONSTER_DEFAULT_COLOR = "#000000"
+private const val MONSTER_TYPE_STANDING_COLOR = "#827e0c"
+private const val MONSTER_TYPE_MOVING_COLOR = "#ff0000"
+private const val MONSTER_TYPE_WANDERING_COLOR = "#cc6f18"
+
+private const val MONSTER_WANDER_OFFSET: Double = 0.0005
 
 open class Monster(
-    val damage: Int = MONSTER_DAMAGE,
+    var damage: Int = MONSTER_DAMAGE,
     var player: Player,
     var position: LatLng,
     private var mMap: GoogleMap)
 {
     var speed: Double = MONSTER_ZERO_SPEED
     var range: Double = MONSTER_ZERO_RANGE
+    var detectRange: Double = MONSTER_ZERO_RANGE
     var color: String = MONSTER_DEFAULT_COLOR
     var monsterType: String = ""
     var location: Location = Location("")
@@ -60,7 +64,7 @@ open class Monster(
             .center(this.position)
             .radius(this.range)
             .strokeColor(Color.parseColor(this.color))
-            .fillColor(Color.parseColor(this.color)))
+        )
     }
 
     fun changePosition(position: LatLng)
@@ -75,12 +79,14 @@ open class Monster(
             .center(this.position)
             .radius(this.range)
             .strokeColor(Color.parseColor(this.color))
-            .fillColor(Color.parseColor(this.color)))
+        )
     }
 
     fun attackPlayer()
     {
         this.player.takeDamage(this.damage)
+        this.damage = MONSTER_ZERO_DAMAGE
+        this.circle.remove()
     }
 }
 
@@ -93,6 +99,7 @@ class MonsterStanding(
     init {
         this.monsterType = TYPE_STANDING
         this.range = MONSTER_TYPE_STANDING_RANGE
+        this.detectRange = this.range
         this.color = MONSTER_TYPE_STANDING_COLOR
 
         this.initCircle()
@@ -109,6 +116,7 @@ class MonsterMoving(
         this.monsterType = TYPE_MOVING
         this.speed = MONSTER_CHASING_SPEED
         this.range = MONSTER_TYPE_MOVING_RANGE
+        this.detectRange = MONSTER_DEFAULT_DETECT_RANGE
         this.color = MONSTER_TYPE_MOVING_COLOR
 
         this.initCircle()
@@ -125,6 +133,7 @@ class MonsterWandering(
         this.monsterType = TYPE_WANDERING
         this.speed = MONSTER_WANDERING_SPEED
         this.range = MONSTER_TYPE_WANDERING_RANGE
+        this.detectRange = MONSTER_DEFAULT_DETECT_RANGE
         this.color = MONSTER_TYPE_WANDERING_COLOR
 
         this.initCircle()

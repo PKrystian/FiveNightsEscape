@@ -1,18 +1,31 @@
 package com.example.fivenightsescape.player
 
 import android.location.Location
-import androidx.lifecycle.ViewModel
+import android.widget.TextView
 import com.google.android.gms.maps.model.LatLng
+import java.lang.ref.WeakReference
 
-const val PLAYER_HEALTH = 3
+private const val PLAYER_HEALTH = 3
 
-class Player(var position: LatLng): ViewModel() {
-    private var health: Int = PLAYER_HEALTH
+class Player(
+    var position: LatLng,
+    healthBar: TextView
+) {
+    var health: Int = PLAYER_HEALTH
+    private val healthBarRef: WeakReference<TextView> = WeakReference(healthBar)
+    private val healthBar: TextView?
+        get() = healthBarRef.get()
+
     var location: Location = Location("")
 
     init {
         this.location.latitude = this.position.latitude
         this.location.longitude = this.position.longitude
+
+        this.healthBar?.text = buildString {
+            append("Health ")
+            append(health)
+        }
     }
 
     fun changePosition(position: LatLng)
@@ -27,13 +40,9 @@ class Player(var position: LatLng): ViewModel() {
     {
         this.health -= damage
 
-        if (this.health <= 0) {
-            this.death()
+        this.healthBar?.text = buildString {
+            append("Health ")
+            append(health)
         }
-    }
-
-    private fun death()
-    {
-        // Implement GAME OVER Screen etc.
     }
 }
