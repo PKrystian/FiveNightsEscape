@@ -40,6 +40,8 @@ private const val DEFAULT_LEVEL_PROGRESSION = 1
 private const val PERCENT = 100
 private const val MONSTER_SPAWN_DELAY: Long = 10000
 private const val PLAYER_HEALTH_MONITOR_INTERVAL: Long = 500
+private const val INTERVAL = 50
+private const val FASTEST_INTERVAL = 25
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -180,8 +182,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isMyLocationButtonEnabled = true
 
         val locationRequest = LocationRequest.create().apply {
-            interval = 50
-            fastestInterval = 25
+            INTERVAL
+            FASTEST_INTERVAL
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
