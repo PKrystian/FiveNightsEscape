@@ -50,7 +50,7 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 - [ ] Use of style overrides
 
-- [ ] Testing of application hotspots
+- [x] Testing of application hotspots
 
 - [x] Android + Kotlin
 

@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupStartButton(selectedDifficulty: String?) {
+    fun setupStartButton(selectedDifficulty: String?) {
         val startButton: Button = findViewById(R.id.startButton)
         startButton.setOnClickListener {
             if (selectedDifficulty != null) {
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startMapsActivity(selectedDifficulty: String?) {
+    fun startMapsActivity(selectedDifficulty: String?) {
         if (selectedDifficulty != null) {
             val intent = Intent(this@MainActivity, MapsActivity::class.java)
             intent.putExtra(INTENT_EXTRA, selectedDifficulty)
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         return null
     }
 
-    private fun toastError() {
+    fun toastError() {
         Toast.makeText(this@MainActivity, UNSELECTED_DIFFICULTY_MESSAGE, Toast.LENGTH_SHORT).show()
     }
 }
