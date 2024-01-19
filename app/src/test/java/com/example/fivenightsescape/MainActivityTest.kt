@@ -1,6 +1,5 @@
 package com.example.fivenightsescape
 
-import android.widget.RadioGroup
 import android.widget.Toast
 import org.junit.Rule
 import org.junit.Test
@@ -56,13 +55,6 @@ class MainActivityTest {
     fun testToastError() {
         ToastMock()
         mainActivity.toastError()
-    }
-
-    private class RadioGroupMock : RadioGroup(null) {
-        var setOnCheckedChangeListenerCalled = false
-        override fun setOnCheckedChangeListener(listener: OnCheckedChangeListener?) {
-            setOnCheckedChangeListenerCalled = true
-        }
     }
 
     private class ToastMock : Toast(null) {
