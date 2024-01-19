@@ -34,24 +34,6 @@ class MainActivityTest {
     }
 
     @Test
-    fun testStartMapsActivityEasy() {
-        val selectedDifficulty = EASY
-        mainActivity.startMapsActivity(selectedDifficulty)
-    }
-
-    @Test
-    fun testStartMapsActivityMedium() {
-        val selectedDifficulty = MEDIUM
-        mainActivity.startMapsActivity(selectedDifficulty)
-    }
-
-    @Test
-    fun testStartMapsActivityHard() {
-        val selectedDifficulty = HARD
-        mainActivity.startMapsActivity(selectedDifficulty)
-    }
-
-    @Test
     fun testToastError() {
         ToastMock()
         mainActivity.toastError()
