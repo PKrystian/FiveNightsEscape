@@ -15,10 +15,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lorem_ipsum"
+            android:text="@string/how_to_play"
+            android:textIsSelectable="true"
             android:textSize="16sp"
             tools:ignore="VisualLintLongText" />
     </ScrollView>
+
+    <!-- Blank Space -->
+    <View
+        android:id="@+id/blankSpace"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_above="@id/difficultyOptions"/>
 
     <!-- Difficulty Options -->
     <RadioGroup

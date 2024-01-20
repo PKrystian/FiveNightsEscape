@@ -1,7 +1,3 @@
-# Description:
-
-TODO: Add here description of the whole project.
-
 # Repository contribution:
 
 ## Branch Usage:
@@ -23,6 +19,8 @@ Adherence to consistent formatting, naming conventions, and best practices outli
 
 Utilize descriptive commit messages to ensure clarity and ease of understanding for the team members reviewing the changes.
 Where applicable, leverage Git's features such as rebase or squash commits to maintain a clean and coherent commit history.
+
+## TODO: This part will be removed when the project is finished \/ \/ \/
 
 # Project requirements/description:
 
@@ -56,7 +54,7 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 ## Other requirements:
 
-- [ ] Documentation (description of how it works, possible diagrams, flow, etc.)
+- [x] Documentation (description of how it works, possible diagrams, flow, etc.)
 
 - [x] Working application
 
@@ -72,9 +70,9 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 - [x] Meeting the requirements of the application theme
 
-- [ ] Prepared documentation
+- [x] Prepared documentation
 
-- [ ] Presentation
+- [x] Presentation
 
 - [x] Operation of the application
 
@@ -82,13 +80,15 @@ Where applicable, leverage Git's features such as rebase or squash commits to ma
 
 ## Presentation of the application:
 
-- [ ] Maximum 10 - 15 minutes
+- [x] Maximum 10 - 15 minutes
 
-- [ ] Demonstration of the operation of the application and the most important places in the code
+- [x] Demonstration of the operation of the application and the most important places in the code
 
 - [ ] Before the presentation, everything should be uploaded to the platform
 
 - [ ] Possible questions to verify the participation of each person
+
+## TODO: This part will be removed when the project is finished /\ /\ /\
 
 # FiveNightsEscape:
 
