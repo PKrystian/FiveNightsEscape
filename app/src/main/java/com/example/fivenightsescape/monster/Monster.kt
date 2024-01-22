@@ -17,7 +17,7 @@ private const val MONSTER_DAMAGE: Int = 1
 private const val MONSTER_ZERO_DAMAGE: Int = 0
 
 const val MONSTER_ZERO_SPEED: Double = 0.0
-const val MONSTER_CHASING_SPEED: Double = 0.000003 * 10
+const val MONSTER_CHASING_SPEED: Double = 0.000003
 const val MONSTER_WANDERING_SPEED: Double = 0.000005
 
 private const val MONSTER_ZERO_RANGE: Double = 0.0

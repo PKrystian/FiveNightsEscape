@@ -32,12 +32,12 @@ class MonsterSpawner(
     private val player: Player,
     private val mMap: GoogleMap,
     private val difficulty: String?,
-    private val Context: Context?
+    private val context: Context?
 ) {
     private val monsterController = MonsterController()
 
     init{
-        Context?.let {monsterController.setContext(Context) } //getting context for the toast alert
+        context?.let {monsterController.setContext(context) } //getting context for the toast alert
     }
 
     fun addMonster()

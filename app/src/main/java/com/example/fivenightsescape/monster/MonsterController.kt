@@ -14,17 +14,19 @@ private const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
 
 private const val DEFAULT_WANDERING_DISTANCE = 10
 
-private const val DEFAULT_ALERT_DISTANCE : Double = 2.0
+private const val DEFAULT_ALERT_DISTANCE : Double = 15.0
+
+private const val ALERT_TEXT = "A monster is nearby!"
 
 class MonsterController {
     private val monsters: MutableList<Monster> = mutableListOf()
     private val monsterMoveTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
     private val monsterWanderTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
 
-    private var Context: Context? = null
+    private var context: Context? = null
 
-    fun setContext(context: Context) {
-        Context = context
+    fun setContext(context_g: Context) {
+        context = context_g
     }
 
     private fun createMonsterMoveTimer(monster: Monster): CountDownTimer {
@@ -69,18 +71,16 @@ class MonsterController {
                 actionAttack(monster)
             }
             if (monster.location.distanceTo(monster.player.location) <= monster.range * DEFAULT_ALERT_DISTANCE) {
-                Context?.let {showAlertToast(it) }
+                context?.let {
+                    val toast = Toast.makeText(context, ALERT_TEXT , Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.BOTTOM,0,0)
+                    toast.show()
+                }
             }
             if (monster.location.distanceTo(monster.player.location) <= monster.detectRange) {
                 monsterAction(monster)
             }
         }
-    }
-
-    fun showAlertToast(context: Context){
-        val toast = Toast.makeText(context, "A monster is nearby!", Toast.LENGTH_SHORT)
-        toast.setGravity(Gravity.CENTER,0,0)
-        toast.show()
     }
 
     private fun monsterAction(monster: Monster) {
