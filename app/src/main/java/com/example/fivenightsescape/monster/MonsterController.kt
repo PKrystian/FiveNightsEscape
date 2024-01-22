@@ -25,8 +25,8 @@ class MonsterController {
 
     private var context: Context? = null
 
-    fun setContext(context_g: Context) {
-        context = context_g
+    fun setContext(contextG: Context) {
+        context = contextG
     }
 
     private fun createMonsterMoveTimer(monster: Monster): CountDownTimer {
