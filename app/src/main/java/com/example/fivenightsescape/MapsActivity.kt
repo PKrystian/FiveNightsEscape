@@ -142,7 +142,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         this.monsterSpawner = MonsterSpawner(
             player = this.player,
             mMap = mMap,
-            difficulty = intent.getStringExtra(INTENT_EXTRA)
+            difficulty = intent.getStringExtra(INTENT_EXTRA),
+            Context = this
         )
 
         val handler = Handler(Looper.getMainLooper())
@@ -160,7 +161,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         this.monitorPlayerHealth().start()
         this.initialized = true
     }
-
     override fun onMapReady(
         googleMap: GoogleMap
     ) {
@@ -213,6 +213,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

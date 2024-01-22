@@ -1,5 +1,6 @@
 package com.example.fivenightsescape.monster
 
+import android.content.Context
 import com.example.fivenightsescape.EASY
 import com.example.fivenightsescape.HARD
 import com.example.fivenightsescape.MEDIUM
@@ -30,9 +31,14 @@ private const val DIVIDER = 10000
 class MonsterSpawner(
     private val player: Player,
     private val mMap: GoogleMap,
-    private val difficulty: String?
+    private val difficulty: String?,
+    private val Context: Context?
 ) {
     private val monsterController = MonsterController()
+
+    init{
+        Context?.let {monsterController.setContext(Context) } //getting context for the toast alert
+    }
 
     fun addMonster()
     {
