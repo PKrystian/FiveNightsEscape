@@ -3,6 +3,9 @@ package com.example.fivenightsescape.monster
 import android.location.Location
 import android.os.CountDownTimer
 import com.google.android.gms.maps.model.LatLng
+import android.widget.Toast
+import android.content.Context
+import android.view.Gravity
 
 private const val DEFAULT_COUNTDOWN_INTERVAL_MOVING: Long = 250
 private const val DEFAULT_COUNT_FROM: Long = 500
@@ -11,11 +14,20 @@ private const val DEFAULT_COUNTDOWN_INTERVAL_WANDERING: Long = 1000
 
 private const val DEFAULT_WANDERING_DISTANCE = 10
 
+private const val DEFAULT_ALERT_DISTANCE : Double = 15.0
+
+private const val ALERT_TEXT = "A monster is nearby!"
 
 class MonsterController {
     private val monsters: MutableList<Monster> = mutableListOf()
     private val monsterMoveTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
     private val monsterWanderTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
+
+    private var context: Context? = null
+
+    fun setContext(contextG: Context) {
+        context = contextG
+    }
 
     private fun createMonsterMoveTimer(monster: Monster): CountDownTimer {
         return object : CountDownTimer(DEFAULT_COUNT_FROM, DEFAULT_COUNTDOWN_INTERVAL_MOVING) {
@@ -57,6 +69,13 @@ class MonsterController {
         for (monster in this.monsters) {
             if (monster.location.distanceTo(monster.player.location) <= monster.range) {
                 actionAttack(monster)
+            }
+            if (monster.location.distanceTo(monster.player.location) <= monster.range * DEFAULT_ALERT_DISTANCE) {
+                context?.let {
+                    val toast = Toast.makeText(context, ALERT_TEXT , Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.BOTTOM,0,0)
+                    toast.show()
+                }
             }
             if (monster.location.distanceTo(monster.player.location) <= monster.detectRange) {
                 monsterAction(monster)
