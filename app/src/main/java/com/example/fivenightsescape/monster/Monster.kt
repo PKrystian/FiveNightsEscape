@@ -35,7 +35,7 @@ private const val MONSTER_TYPE_WANDERING_COLOR = "#cc6f18"
 private const val MONSTER_WANDER_OFFSET: Double = 0.0005
 
 open class Monster(
-    var damage: Int = MONSTER_DAMAGE,
+    private var damage: Int = MONSTER_DAMAGE,
     var player: Player,
     var position: LatLng,
     private var mMap: GoogleMap)
@@ -47,7 +47,6 @@ open class Monster(
     var monsterType: String = ""
     var location: Location = Location("")
 
-    // Only for MonsterWandering
     var wanderFrom: Location = Location("")
     var wanderTo: Location = Location("")
 

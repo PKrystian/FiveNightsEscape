@@ -37,7 +37,7 @@ class MonsterSpawner(
     private val monsterController = MonsterController()
 
     init{
-        context?.let {monsterController.setContext(context) } //getting context for the toast alert
+        context?.let {monsterController.setContext(context) }
     }
 
     fun addMonster()
@@ -48,9 +48,6 @@ class MonsterSpawner(
             EASY -> spawnMonsterForDifficulty(dice, EASY_SPAWNER_BASIC, EASY_SPAWNER_MODIFIER)
             MEDIUM -> spawnMonsterForDifficulty(dice, MEDIUM_SPAWNER_BASIC, MEDIUM_SPAWNER_MODIFIER)
             HARD -> spawnMonsterForDifficulty(dice, HARD_SPAWNER_BASIC, HARD_SPAWNER_MODIFIER)
-            else -> {
-                // do some log error
-            }
         }
     }
 
@@ -104,9 +101,6 @@ class MonsterSpawner(
             dice < basicThreshold -> spawnMonster(TYPE_STANDING)
             dice < basicThreshold + modifier -> spawnMonster(TYPE_MOVING)
             dice < basicThreshold + modifier + modifier -> spawnMonster(TYPE_WANDERING)
-            else -> {
-                // do some log error
-            }
         }
     }
 

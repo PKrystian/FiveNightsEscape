@@ -18,6 +18,7 @@ private const val DEFAULT_ALERT_DISTANCE : Double = 15.0
 
 private const val ALERT_TEXT = "A monster is nearby!"
 
+@Suppress("TooManyFunctions")
 class MonsterController {
     private val monsters: MutableList<Monster> = mutableListOf()
     private val monsterMoveTimers: MutableMap<Monster, CountDownTimer> = mutableMapOf()
@@ -32,7 +33,6 @@ class MonsterController {
     private fun createMonsterMoveTimer(monster: Monster): CountDownTimer {
         return object : CountDownTimer(DEFAULT_COUNT_FROM, DEFAULT_COUNTDOWN_INTERVAL_MOVING) {
             override fun onTick(millisUntilFinished: Long) {
-                // do something
             }
 
             override fun onFinish() {
@@ -44,7 +44,6 @@ class MonsterController {
     private fun createMonsterWanderTimer(monster: Monster): CountDownTimer {
         return object : CountDownTimer(DEFAULT_COUNT_FROM, DEFAULT_COUNTDOWN_INTERVAL_WANDERING) {
             override fun onTick(millisUntilFinished: Long) {
-                // do something
             }
 
             override fun onFinish() {
