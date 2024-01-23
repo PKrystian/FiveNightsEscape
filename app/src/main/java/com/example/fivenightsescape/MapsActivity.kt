@@ -67,6 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun monitorPlayerHealth(): CountDownTimer {
         return object : CountDownTimer(PLAYER_HEALTH_MONITOR_INTERVAL, PLAYER_HEALTH_MONITOR_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
+                // Do nothing, comment to avoid warning
             }
 
             override fun onFinish() {
