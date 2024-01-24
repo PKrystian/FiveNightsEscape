@@ -25,7 +25,7 @@ private const val MONSTER_TYPE_STANDING_RANGE: Double = 8.0
 private const val MONSTER_TYPE_MOVING_RANGE: Double = 6.0
 private const val MONSTER_TYPE_WANDERING_RANGE: Double = 5.0
 
-private const val MONSTER_DEFAULT_DETECT_RANGE: Double = 100.0
+private const val MONSTER_DEFAULT_DETECT_RANGE: Double = 40.0
 
 private const val MONSTER_DEFAULT_COLOR = "#000000"
 private const val MONSTER_TYPE_STANDING_COLOR = "#827e0c"
