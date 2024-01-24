@@ -51,14 +51,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var initialized: Boolean = false
 
-    //timer and lv things
     private lateinit var timerONE :Chronometer
 
-    //levelChanger * delay = every how many milliseconds next lv, it changes every two levels
     private var levelChanger = DEFAULT_LEVEL_CHANGER
     private val delay = DEFAULT_DELAY
-    private var currentLevel = 1 //lv the player is on
-    private var subLevel = 0 // for the progressbar and to change level length
+    private var currentLevel = 1
+    private var subLevel = 0
     private val handlerTimer = Handler(Looper.getMainLooper())
 
     private lateinit var levelText: TextView
@@ -69,7 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun monitorPlayerHealth(): CountDownTimer {
         return object : CountDownTimer(PLAYER_HEALTH_MONITOR_INTERVAL, PLAYER_HEALTH_MONITOR_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
-                // do something
+                // Do nothing, comment to avoid warning
             }
 
             override fun onFinish() {
@@ -87,14 +85,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        //timer
         timerONE = findViewById(R.id.timerONE)
         timerONE.start()
         handlerTimer.postDelayed(newLevel, delay)
-        //level indicator
         levelText = findViewById(R.id.levelIndicator)
         levelText.text = getString(R.string.level, currentLevel)
-        //progress bar
         progressBar = findViewById(R.id.progressBar)
 
         val stopButton: Button = findViewById(R.id.stopButton)
@@ -110,7 +105,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
-    //function to change levels
     private val newLevel = object : Runnable {
         override fun run() {
             runOnUiThread {
@@ -121,7 +115,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 else{
                     if (currentLevel % DEFAULT_LEVEL_SLOWING == 0){
                         levelChanger *= DEFAULT_SPEED_PROGRESSION
-                    // every x levels it takes y times longer to get another lv
                     }
                     progressBar.progress = 0
                     subLevel = 0
@@ -143,7 +136,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             player = this.player,
             mMap = mMap,
             difficulty = intent.getStringExtra(INTENT_EXTRA),
-            Context = this
+            context = this
         )
 
         val handler = Handler(Looper.getMainLooper())
@@ -239,8 +232,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun purgeEverything() {
-        this.timerONE.stop() //stops timer
-        this.handlerTimer.removeCallbacks(newLevel) //stops level counting
+        this.timerONE.stop()
+        this.handlerTimer.removeCallbacks(newLevel)
 
         this.monitorPlayerHealth().cancel()
 
